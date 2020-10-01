@@ -1,0 +1,11 @@
+n=int(input())
+count=0
+for _ in range(n):
+    arr=list(map(int,input().strip().split()))
+    temp=0
+    for i in arr:
+        temp+=i
+    if(temp>1):
+        count+=1
+print(count)
+        
