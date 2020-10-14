@@ -1,5 +1,5 @@
 import java.io.*;
-class Template
+public class Main
 {
     static class Reader 
     { 
