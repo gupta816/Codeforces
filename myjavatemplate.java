@@ -139,7 +139,21 @@ class Maths {
         return reverseFactorials;
     }
 }
+class Node {
+    List<Integer> neighbors;
 
+    Node() {
+        neighbors = new ArrayList<>();
+    }
+
+    void addEdge(Integer v) {
+        neighbors.add(v);
+    }
+
+    public List<Integer> getNeighbors() {
+        return neighbors;
+    }
+}
 class Graph {
     List<Node> nodes = new ArrayList<>();
 
@@ -281,6 +295,7 @@ public void close() throws IOException
          * For printing with space: printSp(a+""); where a is a variable of any datatype
          * For printing with new line: println(a+""); where a is a variable of any datatype
          */
+    	//println("hello");
         bw.flush();
         bw.close();
     }
