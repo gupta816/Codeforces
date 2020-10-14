@@ -1,4 +1,163 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.math.BigInteger;
+import java.util.Arrays;
+
+class Pair implements Comparable<Pair> {
+
+    public int x;
+    public int y;
+
+    public Pair(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+
+    @Override
+    public String toString() {
+        return (x + " " + y);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Pair)) return false;
+        Pair pairo = (Pair) o;
+        return this.x == pairo.x &&
+                this.y == pairo.y;
+    }
+//Arrays.sort(pairArray,new Comparator<Pair>()
+//
+//    {
+//        @Override
+//        public int compare (Pair p1, Pair p2){
+//        return p1.getL().compareTo(p2.getL());
+//    }
+//    });
+
+    @Override
+    public int compareTo(Pair p) {
+        return Integer.compare(this.x, p.x);
+    }
+}
+class SegmentTree { // Implemented to store min in a range , point update and range query
+    int tree[];
+    int len;
+    int size;
+
+    SegmentTree(int len) { // arr should be a 1 based array
+        this.len = len;
+        size = 1 << (32 - Integer.numberOfLeadingZeros(len - 1) + 1);  // ceil(log(len)) + 1
+        tree = new int[size];
+        Arrays.fill(tree, Integer.MAX_VALUE);
+    }
+
+    void update(int node, int idx, int val, int nl, int nr) {
+        if (nl == nr && nl == idx)
+            tree[node] = val;
+        else {
+            int mid = (nl + nr) >> 1;
+            if (idx <= mid)
+                update(2 * node, idx, val, nl, mid);
+            else
+                update((2 * node) + 1, idx, val, mid + 1, nr);
+
+            tree[node] = Math.min(tree[2 * node], tree[(2 * node) + 1]);
+        }
+    }
+
+    void update(int idx, int val) {
+        update(1, idx, val, 0, len - 1);
+    }
+
+    int query(int L, int R) {
+        if (L > R) return Integer.MAX_VALUE;
+        return query(1, L, R, 0, len - 1);
+    }
+
+    int query(int node, int L, int R, int nl, int nr) {
+        int mid = (nl + nr) >> 1;
+        if (nl == L && nr == R)
+            return tree[node];
+        else if (R <= mid)
+            return query(2 * node, L, R, nl, mid);
+        else if (L > mid)
+            return query((2 * node) + 1, L, R, mid + 1, nr);
+        else
+            return Math.min(query(2 * node, L, mid, nl, mid), query((2 * node) + 1, mid + 1, R, mid + 1, nr));
+    }
+}
+
+class Maths {
+    public final long MOD = (long) 1e9 + 7;
+    public long[] fact = generateFactorials(1000000);
+    public long[] invFact = generateReverseFactorials(1000000);
+
+    public static long modInverse(long a, long m) {
+        return power(a, m - 2, m);
+    }
+
+    public static long gcd(long a, long b) {
+        if (a == 0)
+            return b;
+        return gcd(b % a, a);
+    }
+
+    public static long power(long a, long k, long m) {
+        long res = 1;
+        while (k > 0) {
+            if ((k & 1) != 0) {
+                res = res * a % m;
+            }
+            a = a * a % m;
+            k >>= 1;
+        }
+        return res;
+    }
+
+    public long comb(final int m, final int n) {
+        return (((fact[n] * invFact[m]) % MOD) * invFact[n - m]) % MOD;
+    }
+
+    public long[] generateFactorials(int count) {
+        long[] result = new long[count];
+        result[0] = 1;
+        for (int i = 1; i < count; i++) {
+            result[i] = (result[i - 1] * i) % MOD;
+        }
+        return result;
+    }
+
+    long[] generateReverseFactorials(int upTo) {
+        final long[] reverseFactorials = new long[upTo];
+        reverseFactorials[0] = reverseFactorials[1] = 1;
+        final BigInteger BIG_MOD = BigInteger.valueOf(MOD);
+        for (int i = 1; i < upTo; i++) {
+            reverseFactorials[i] = (BigInteger.valueOf(i).modInverse(BIG_MOD).longValue() * reverseFactorials[i - 1]) % MOD;
+        }
+        return reverseFactorials;
+    }
+}
+
+class Graph {
+    List<Node> nodes = new ArrayList<>();
+
+    public Graph(int n) {
+        for (int i = 0; i < n; ++i) {
+            nodes.add(new Node());
+        }
+    }
+
+    public Node getNode(int v) {
+        return nodes.get(v);
+    }
+
+    public void addEdge(int u, int v) {
+        getNode(u).addEdge(v);
+        getNode(v).addEdge(u);
+    }
+}
 public class Main
 {
     static class Reader 
