@@ -132,25 +132,12 @@ public void close() throws IOException
          * For printing with space: printSp(a+""); where a is a variable of any datatype
          * For printing with new line: println(a+""); where a is a variable of any datatype
          */
-        //int t=inputInt();
-        int t=1;
+         //int t=1;
+        int t=inputInt();
+       
         while(t--!=0)
         {
-            int n=inputInt();
-            int m=inputInt();
-            int day=1;
-            int stock=n*2;
-            while(stock!=0)
-            {
-                if(day%m==0)
-                {
-                   stock+=2;
-                }
-                stock-=2;
-                day++;
-            }
-            
-            println(day-1+"");
+          
             
             
         }
